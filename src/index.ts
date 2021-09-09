@@ -69,7 +69,7 @@ const conversionObj = {
 
 const conversionMap = new Map(Object.entries(conversionObj));
 
-const main = (input: string) => {
+const base64Decode = (input: string) => {
   const replacedInput = input.replace(/=/g, "");
   const binaryNums = [...replacedInput].reduce<string>((prev, curr) => {
     return `${prev}${conversionMap.get(curr) || ""}`;
@@ -93,4 +93,4 @@ const sliceByNumber = (array: Array<any>, length: number) => {
     .map((_, i) => array.slice(i * length, (i + 1) * length));
 };
 
-assert.strictEqual(main("QUJDREVGRw=="), "ABCDEFG");
+assert.strictEqual(base64Decode("QUJDREVGRw=="), "ABCDEFG");
