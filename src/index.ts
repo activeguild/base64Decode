@@ -76,7 +76,7 @@ const base64Decode = (input: string) => {
   }, "");
   const split4Len = binaryNums.match(/.{1,4}/g);
   return sliceByNumber(split4Len!, 2).reduce<string>((prev, curr) => {
-    if(curr.length !== 2) return prev;
+    if (curr.length !== 2) return prev;
 
     const ascii = `${parseInt(curr[0], 2).toString(16)}${parseInt(
       curr[1],
@@ -93,4 +93,22 @@ const sliceByNumber = (array: Array<any>, length: number) => {
     .map((_, i) => array.slice(i * length, (i + 1) * length));
 };
 
+const base64ToUint8Array = (input: string) => {
+  const replacedInput = input.replace(/=/g, "");
+  const binaryNums = [...replacedInput].reduce<string>((prev, curr) => {
+    return `${prev}${conversionMap.get(curr) || ""}`;
+  }, "");
+  const split4Len = binaryNums.match(/.{1,4}/g);
+
+  return sliceByNumber(split4Len!, 2).reduce<Number[]>((prev, curr) => {
+    if (curr.length !== 2) return prev;
+
+    return [...prev, parseInt(`${curr[0]}${curr[1]}`, 2)];
+  }, []);
+};
+
 assert.strictEqual(base64Decode("QUJDREVGRw=="), "ABCDEFG");
+assert.deepStrictEqual(
+  base64ToUint8Array("QUJDREVGRw=="),
+  [65, 66, 67, 68, 69, 70, 71]
+);
