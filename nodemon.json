@@ -1,6 +1,5 @@
 {
     "watch":["src"],
     "ext": "ts",
-    "exec": "time ts-node --transpile-only ./src/index.ts" ,
-    "exec2": "time node --require esbuild-register ./src/index.ts" 
+    "exec": "time node --require esbuild-register ./src/index.ts" 
 }
